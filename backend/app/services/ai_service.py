@@ -11,9 +11,8 @@ class AIService:
     def _init_client(self):
         """Initialize AI client based on provider"""
         if self.provider == 'openai':
-            import openai
-            openai.api_key = Config.OPENAI_API_KEY
-            self.client = openai
+            # Client will be created in the analyze method
+            pass
         elif self.provider == 'gemini':
             import google.generativeai as genai
             genai.configure(api_key=Config.GEMINI_API_KEY)
@@ -76,7 +75,9 @@ Provide ONLY the JSON response, no additional text."""
     
     def _analyze_with_openai(self, prompt):
         """Analyze using OpenAI API"""
-        response = self.client.ChatCompletion.create(
+        from openai import OpenAI
+        client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a civic complaint analyzer. Always respond with valid JSON."},
