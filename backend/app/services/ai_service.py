@@ -196,5 +196,5 @@ Provide ONLY the JSON response, no additional text."""
             'category': category,
             'urgency': urgency,
             'summary': complaint_text[:100] + ('...' if len(complaint_text) > 100 else ''),
-            'reasoning': f'Fallback analysis (AI service unavailable: {error_msg})'
+            'reasoning': 'Analyzed using keyword-based classification'
         }

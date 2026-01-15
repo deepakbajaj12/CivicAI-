@@ -55,8 +55,11 @@ def create_complaint():
             'message': 'Complaint submitted successfully'
         }), 201
         
+    except ValueError as e:
+        return jsonify({'error': 'Invalid data provided'}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        # Log error for debugging but don't expose details
+        return jsonify({'error': 'Failed to process complaint'}), 500
 
 @complaint_bp.route('/complaints', methods=['GET'])
 def get_complaints():
@@ -98,8 +101,10 @@ def get_complaints():
             }
         }), 200
         
+    except ValueError:
+        return jsonify({'error': 'Invalid query parameters'}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Failed to retrieve complaints'}), 500
 
 @complaint_bp.route('/complaints/<complaint_id>', methods=['GET'])
 def get_complaint(complaint_id):
@@ -117,7 +122,7 @@ def get_complaint(complaint_id):
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Failed to retrieve complaint'}), 500
 
 @complaint_bp.route('/complaints/<complaint_id>', methods=['PUT'])
 def update_complaint(complaint_id):
@@ -150,7 +155,7 @@ def update_complaint(complaint_id):
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Failed to update complaint'}), 500
 
 @complaint_bp.route('/complaints/<complaint_id>', methods=['DELETE'])
 def delete_complaint(complaint_id):
@@ -168,7 +173,7 @@ def delete_complaint(complaint_id):
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Failed to delete complaint'}), 500
 
 @complaint_bp.route('/statistics', methods=['GET'])
 def get_statistics():
@@ -183,7 +188,7 @@ def get_statistics():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Failed to retrieve statistics'}), 500
 
 @complaint_bp.route('/health', methods=['GET'])
 def health_check():

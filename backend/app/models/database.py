@@ -24,7 +24,7 @@ class Database:
             if complaint:
                 complaint['_id'] = str(complaint['_id'])
             return complaint
-        except:
+        except Exception:
             return None
     
     def get_all_complaints(self, limit=100, skip=0, filters=None):
@@ -52,7 +52,7 @@ class Database:
                 {'$set': update_data}
             )
             return result.modified_count > 0
-        except:
+        except Exception:
             return False
     
     def delete_complaint(self, complaint_id):
@@ -60,7 +60,7 @@ class Database:
         try:
             result = self.complaints.delete_one({'_id': ObjectId(complaint_id)})
             return result.deleted_count > 0
-        except:
+        except Exception:
             return False
     
     def get_statistics(self):
